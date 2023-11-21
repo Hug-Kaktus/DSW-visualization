@@ -254,12 +254,12 @@ class BST:
             else:
                 logs += "25. grand = tmp -> grand is None\n"
             update_logs()
-            tmp = tmp.right
-            update_state(StateParams.TMP, StateParams.TMP + f"tmp is {tmp and f'TreeNode({tmp.val})'}")
             if tmp.right:
                 logs += f"26. tmp = tmp.right -> tmp is TreeNode({tmp.right.val})\n"
             else:
                 logs += "26. tmp = tmp.right -> tmp is None\n"
+            tmp = tmp.right
+            update_state(StateParams.TMP, StateParams.TMP + f"tmp is {tmp and f'TreeNode({tmp.val})'}")
             update_logs()
             visualize_binary_tree(GRAND, "Compression")
 
@@ -302,6 +302,7 @@ os.makedirs("images", exist_ok=True)
 
 bst = BST()
 elements = [5, 4, 6, 3, 10, 9, 8]
+# elements = [17, 8, 19, 3, 9, 10, 11, 12, 18, 20, 5, 4, 3, 15, 16]
 for e in elements:
     bst.insert(e)
 bst.balanceBST(bst.root)
