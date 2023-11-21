@@ -1,0 +1,41 @@
+    1.     def bstToVine(self, grand: TreeNode) -> int:
+    2.         count = 0
+    3.         tmp = grand.right
+    4.         while tmp:
+    5.             if tmp.left:
+    6.                 oldTmp = tmp
+    7.                 tmp = tmp.left
+    8.                 oldTmp.left = tmp.right
+    9.                 tmp.right = oldTmp
+    10.                 grand.right = tmp
+       
+    11.             else:
+    12.                 count += 1
+    13.                 grand = tmp
+    14.                 tmp = tmp.right
+    15. 
+    16.         return count
+       
+    17.     def compress(self, grand: TreeNode, m: int) -> None:
+    18.         tmp = grand.right
+    19.         for _ in range(m):
+    20.             oldTmp = tmp
+    21.             tmp = tmp.right
+    22.             grand.right = tmp
+    23.             oldTmp.right = tmp.left
+    24.             tmp.left = oldTmp
+    25.             grand = tmp
+    26.             tmp = tmp.right
+       
+    27.     def balanceBST(self, root: TreeNode) -> TreeNode:
+    28.         grand = TreeNode("auxiliary node")
+    29.         grand.right = root
+    30.         count = self.bstToVine(grand)
+    31.         h = int(math.log2(count + 1))
+    32.         m = pow(2, h) - 1
+    33.         self.compress(grand, count - m)
+    34.         for m in [m // 2**i for i in range(1, h + 1)]:
+    35.             self.compress(grand, m)
+       
+    36.         self.root = grand.right
+    37.         return grand.right
